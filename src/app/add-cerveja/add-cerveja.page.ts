@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ComponentFactoryResolver } from '@angular/core/src/render3';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-cerveja',
@@ -7,20 +11,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddCervejaPage implements OnInit {
 
-  constructor() { }
+  constructor(private nav:NavController) { }
 
   ngOnInit() {
-    this.mensagem =""
+    this.mensagem = ""
   }
+
   mensagem;
 
-salvar(form){
-  const cervejaString = JSON.stringify(form.value)
- const nomecerveja = form.value.nome
+  salvar(form) {
+    const cervejaString = JSON.stringify(form.value)
+    const nomeCerveja = form.value.nome
 
+    localStorage.setItem(nomeCerveja, cervejaString)
+    
+    form.reset()
 
-  sessionStorage.setItem(nomecerveja, cervejaString)
-  form.reset()
-  this.mensagem = 'Cadastrado com Sucesso'
-}
+    this.nav.back()
+
+  }
+
 }
